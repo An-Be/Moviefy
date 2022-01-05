@@ -1,0 +1,69 @@
+@model IEnumerable<Moviefy.Models.MovieModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<h1>Movies</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateRelease)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Genre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRelease)
+            </td>
+            <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Movies" asp-action="Watch" ><button class="btn-primary">Click here to watch </button></a>
+                    }
+            </td>
+
+                    <td>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit |</a> 
+                        }
+                         @if (User.Identity.IsAuthenticated)
+                        {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details </a>
+                        }
+                            @if (User.Identity.Name == "andrea@email.com")
+                            {
+                        <a asp-action="Delete" asp-route-id="@item.Id">| Delete</a>
+                            }
+                    </td>
+                
+            </tr>
+}
+    </tbody>
+</table>
